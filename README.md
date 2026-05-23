@@ -1,114 +1,110 @@
 # Pet Shop E-commerce Platform (Django)
         
 
+ A comprehensive, scalable, and modern E-commerce platform dedicated to pets and pet supplies, powered by **Django**. This platform includes both a customer-facing storefront and a **bespoke Custom Admin Panel** for full business management.
+        
+
             
-            
-            A comprehensive, scalable, and modern E-commerce platform dedicated to pets and pet supplies, powered by **Django**. This platform includes both a customer-facing storefront and a **bespoke Custom Admin Panel** for full business management.
+## 🌟 Overview
         
 
             
             
-            ## 🌟 Overview
+This project is an all-in-one solution for a pet shop, featuring product browsing, advanced filtering, a secure checkout process with Zarinpal payment gateway integration, and a specialized administrative dashboard for store managers.
+        
+
+            
+ ## 🚀 Key Features
         
 
             
             
-            This project is an all-in-one solution for a pet shop, featuring product browsing, advanced filtering, a secure checkout process with Zarinpal payment gateway integration, and a specialized administrative dashboard for store managers.
+### 🛒 Customer Storefront
         
 
             
             
-            ## 🚀 Key Features
+- **Product Catalog:** Advanced categorization using `django-mptt`.
         
 
             
             
-            ### 🛒 Customer Storefront
+  - **Advanced Search & Filtering:** Find pet supplies easily.
         
 
             
             
-            - **Product Catalog:** Advanced categorization using `django-mptt`.
+ - **Secure Shopping:** Full cart system and checkout with **Zarinpal** payment gateway.
         
 
             
             
-            - **Advanced Search & Filtering:** Find pet supplies easily.
+   - **User Profiles:** Manage addresses, order history, and personal information.
+      
+
+            
+            
+      - **Responsive Design:** Fully optimized for mobile, tablet, and desktop devices.
         
 
             
             
-            - **Secure Shopping:** Full cart system and checkout with **Zarinpal** payment gateway.
+        ### ⚙️ Custom Admin Dashboard
+        
+
+            
+      
+        - **Dashboard:** Real-time overview of sales and store status.
         
 
             
             
-            - **User Profiles:** Manage addresses, order history, and personal information.
+   - **Order Management:** Deep-dive into order details, shipping info, payment status, and order lifecycle management.
         
 
             
             
-            - **Responsive Design:** Fully optimized for mobile, tablet, and desktop devices.
+    - **Product Management:** CRUD operations with intelligent unique slug generation.
         
 
             
             
-            ### ⚙️ Custom Admin Dashboard
+ - **Category Management:** Hierarchical tree management for products.
         
 
             
             
-            - **Dashboard:** Real-time overview of sales and store status.
+     - **HTMX Integration:** Dynamic, SPA-like experiences in the admin area without full page reloads.
         
 
             
             
-            - **Order Management:** Deep-dive into order details, shipping info, payment status, and order lifecycle management.
+         ## 🛠 Tech Stack
         
 
             
             
-            - **Product Management:** CRUD operations with intelligent unique slug generation.
+        - **Backend:** Django, Python 3
         
 
             
             
-            - **Category Management:** Hierarchical tree management for products.
+         - **Database:** PostgreSQL/SQLite
         
 
             
             
-            - **HTMX Integration:** Dynamic, SPA-like experiences in the admin area without full page reloads.
+        - **Frontend:** HTML5, CSS3, JavaScript (HTMX for interactivity)
         
 
             
             
-            ## 🛠 Tech Stack
+         - **Payments:** Zarinpal API
         
 
             
             
-            - **Backend:** Django, Python 3
-        
-
-            
-            
-            - **Database:** PostgreSQL/SQLite
-        
-
-            
-            
-            - **Frontend:** HTML5, CSS3, JavaScript (HTMX for interactivity)
-        
-
-            
-            
-            - **Payments:** Zarinpal API
-        
-
-            
-            
-            - **Utilities:** `django-mptt`, `django-crispy-forms`
+          - **Utilities:** `django-mptt`, `django-crispy-forms`
         
 
             
