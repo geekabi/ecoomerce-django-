@@ -1,0 +1,57 @@
+{% extends "adminpanel/layout.html" %}
+
+{% block title %}سفارشات{% endblock %}
+{% block page_title %}مدیریت سفارشات{% endblock %}
+
+{% block content %}
+
+<table class="admin-table">
+
+    <thead>
+        <tr>
+            <th>شماره سفارش</th>
+            <th>کاربر</th>
+            <th>مبلغ</th>
+            <th>وضعیت</th>
+            <th>تاریخ</th>
+            <th>جزئیات</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for order in orders %}
+        <tr>
+
+            <td>#{{ order.id }}</td>
+
+            <td>
+                {{ order.user.phone }}
+            </td>
+
+            <td>
+                {{ order.total_price }} تومان
+            </td>
+
+            <td>
+                {{ order.get_status_display }}
+            </td>
+
+            <td>
+                {{ order.created_at|date:"Y/m/d" }}
+            </td>
+
+            <td>
+                <a href="{% url 'adminpanel:order-detail' order.id %}">
+                    مشاهده
+                </a>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

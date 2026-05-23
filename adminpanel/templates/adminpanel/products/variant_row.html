@@ -1,0 +1,27 @@
+<tr id="variant-{{ v.id }}">
+
+<td>
+{% for va in v.variantattribute_set.all %}
+{{ va.value.value }} /
+{% endfor %}
+</td>
+
+<td colspan="2">
+
+<form
+hx-post="{% url 'admin-variant-update' v.id %}"
+hx-target="#variant-{{ v.id }}"
+hx-swap="outerHTML"
+>
+
+<input type="number" name="price" value="{{ v.price }}" style="width:120px">
+
+<input type="number" name="stock" value="{{ v.stock }}" style="width:90px">
+
+<button type="submit">💾</button>
+
+</form>
+
+</td>
+
+</tr>

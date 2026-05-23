@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}پنل مدیریت{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+    <!-- فونت -->
+   
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+</head>
+
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+<div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🐾 پت‌شاپ
+        </div>
+
+        <nav class="menu">
+
+            <a href="{% url 'adminpanel:dashboard' %}">
+                📊 داشبورد
+            </a>
+
+            <a href="{% url 'adminpanel:products' %}">
+                🛍 محصولات
+            </a>
+
+            <a href="{% url 'adminpanel:orders' %}">
+                📦 سفارشات
+            </a>
+
+            <a href="">
+                👤 کاربران
+            </a>
+            <a href="{% url 'adminpanel:categories-list' %}">
+    🗂 دسته‌بندی‌ها
+</a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/">مشاهده سایت</a>
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+
+            <div class="topbar-title">
+                {% block page_title %}{% endblock %}
+            </div>
+
+            <div class="topbar-user">
+                {{ request.user.phone }}
+            </div>
+
+        </header>
+
+        <!-- Page Content -->
+        <section class="content">
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

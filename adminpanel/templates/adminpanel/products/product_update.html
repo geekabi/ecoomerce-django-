@@ -1,0 +1,53 @@
+{% extends 'adminpanel/layout.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<div class="card" style="max-width:800px">
+
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+<h3>اطلاعات محصول</h3>
+<hr>
+
+{% for field in form %}
+<div style="margin-bottom:18px">
+<label>{{ field.label }}</label><br>
+{{ field }}
+{% if field.errors %}<div style="color:red">{{ field.errors }}</div>{% endif %}
+</div>
+{% endfor %}
+
+<h3>تصاویر محصول</h3>
+<hr>
+
+{{ formset.management_form }}
+
+{% for subform in formset %}
+<div style="border:1px solid #ddd; padding:10px; margin-bottom:8px;">
+  {% if subform.instance.image %}
+    <img src="{{ subform.instance.image.url }}" 
+         style="width:80px;height:80px;object-fit:cover;border-radius:8px">
+  {% endif %}
+  
+  {% for field in subform.visible_fields %}
+    <div style="margin-top:5px">{{ field.label }}: {{ field }}</div>
+    {% if field.errors %}<div style="color:red">{{ field.errors }}</div>{% endif %}
+  {% endfor %}
+  
+  {% if subform.can_delete %}
+    <div style="margin-top:5px">{{ subform.DELETE }} حذف</div>
+  {% endif %}
+</div>
+{% endfor %}
+
+<button class="btn-add" type="submit">ذخیره تغییرات</button>
+
+</form>
+
+</div>
+
+{% endblock %}

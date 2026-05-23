@@ -1,0 +1,73 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block title %}لیست محصولات{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>لیست محصولات</h1>
+    <a href="{% url 'adminpanel:product-create'%}" class="btn-add">
+        + افزودن محصول
+    </a>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>تصویر</th>
+                <th>نام محصول</th>
+                <th>دسته‌بندی</th>
+                <th>قیمت</th>
+                <th>موجودی</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in products %}
+                <tr>
+                    <td>
+                        {% if p.image %}
+                            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="product-img">
+                        {% else %}
+                            <img src="{% static 'img/no-image.png' %}" alt="بدون تصویر" class="product-img">
+                        {% endif %}
+                    </td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.category.name|default:"—" }}</td>
+                    <td>{{ p.price|floatformat:0 }} تومان</td>
+                    <td>
+                        {% if p.stock > 0 %}
+                            <span class="badge badge-success">{{ p.stock }} عدد</span>
+                        {% else %}
+                            <span class="badge badge-danger">ناموجود</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if p.is_active %}
+                            <span class="badge badge-active">فعال</span>
+                        {% else %}
+                            <span class="badge badge-inactive">غیرفعال</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'adminpanel:admin-product-variants' p.id %}" class="btn-small">
+مدیریت ویژگی‌ها
+</a>
+
+                        <a href="{% url 'adminpanel:product-update' p.id %}" class="btn-edit">ویرایش</a>
+                        <a href="" 
+                           class="btn-delete"
+                           onclick="return confirm('محصول حذف شود؟')">حذف</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">محصولی یافت نشد.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

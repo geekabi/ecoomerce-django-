@@ -1,0 +1,82 @@
+{% extends "adminpanel/layout.html" %}
+
+{% block title %}سفارش {{ order.id }}{% endblock %}
+{% block page_title %}جزئیات سفارش{% endblock %}
+
+{% block content %}
+
+<div class="order-box">
+
+<h3>اطلاعات سفارش</h3>
+
+<p>شماره سفارش: {{ order.id }}</p>
+<p>کاربر: {{ order.user.phone }}</p>
+<p>وضعیت: {{ order.get_status_display }}</p>
+<p>مبلغ کل: {{ order.total_price }} تومان</p>
+<p>تاریخ: {{ order.created_at }}</p>
+<div class="order-box">
+    <h3>💳 اطلاعات پرداخت زرین‌پال</h3>
+    
+        <p><strong>شناسه تراکنش (Ref ID):</strong> {{ order.zarinpal_ref_id }}</p>
+        <p><strong>zarinpal authority</strong> {{ order.zarinpal_authority }}</p>
+        <p><strong>zarinpal card_pan</strong> {{ order.zarinpal_card_pan }}</p>
+        <p><strong>مبلغ پرداختی:</strong> {{ order.total_price }} تومان</p>
+        <p><strong>درگاه:</strong> زرین‌پال</p>
+    
+        
+    
+</div>
+<div class="order-box">
+    <h3>📦 آدرس و اطلاعات ارسال</h3>
+    {% if order.address %}
+        <p><strong>نام گیرنده:</strong> {{ order.user.profile.full_name }}</p>
+        <p><strong>شماره تماس:</strong> {{ order.user.phone }}</p>
+        <p><strong>استان:</strong> {{ order.address.province }}</p>
+        <p><strong>شهر:</strong> {{ order.address.city }}</p>
+        <p><strong>آدرس:</strong> {{ order.address.address }}</p>
+        <p><strong>کد پستی:</strong> {{ order.address.postal_code }}</p>
+    {% else %}
+        <p>هیچ آدرسی برای این سفارش ثبت نشده است.</p>
+    {% endif %}
+</div>
+
+</div>
+
+<div class="order-box">
+
+<h3>آیتم‌های سفارش</h3>
+
+<table class="admin-table">
+
+<thead>
+<tr>
+<th>محصول</th>
+<th>تعداد</th>
+<th>قیمت</th>
+<th>جمع</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in items %}
+
+<tr>
+<td>{{ item.variant.product.name }}</td>
+<td>{{ item.quantity }}</td>
+<td>{{ item.price }}</td>
+<td>{{ item.get_total_price }}</td>
+{{ item.variant.name }}
+
+</tr>
+
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

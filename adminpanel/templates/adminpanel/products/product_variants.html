@@ -1,0 +1,120 @@
+{% extends "adminpanel/layout.html" %}
+{% block content %}
+
+<h1>واریانت‌های {{ product.name }}</h1>
+
+<!-- فرم ایجاد ویژگی جدید -->
+<form
+    hx-post="{% url 'adminpanel:admin-attribute-create' %}"
+    hx-target="#attribute-list"
+    hx-swap="beforeend"
+>
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="نام ویژگی">
+    <button type="submit">افزودن ویژگی</button>
+</form>
+
+<hr>
+
+<!-- فرم ساخت واریانت‌ها -->
+<form
+    method="post"
+    action="{% url 'adminpanel:admin-product-variants' product.id %}"
+>
+    {% csrf_token %}
+
+    <div id="attribute-list">
+        {% for attr in attributes %}
+            {% include "adminpanel/products/attribute_card.html" %}
+        {% endfor %}
+    </div>
+
+    <!-- این div نباید باشد. حذف شد -->
+
+    <button type="submit" class="btn-primary">ساخت واریانت‌ها</button>
+</form>
+
+<hr>
+
+<h2>واریانت‌های موجود</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>SKU</th>
+            <th>قیمت</th>
+            <th>موجودی</th>
+            <th>ویژگی‌ها</th>
+            <th></th> <!-- دکمه حذف -->
+        </tr>
+    </thead>
+
+    <tbody id="variant-table">
+
+{% for v in variants %}
+<tr id="variant-{{ v.id }}">
+
+<form
+    hx-post="{% url 'adminpanel:admin-variant-update' v.id %}"
+    hx-target="#variant-{{ v.id }}"
+    hx-swap="outerHTML"
+>
+
+{% csrf_token %}
+
+<td>{{ v.sku }}</td>
+
+<td>
+{% for va in v.variantattribute_set.all %}
+{{ va.value.value }}{% if not forloop.last %} / {% endif %}
+{% endfor %}
+</td>
+
+<td>
+<input
+    type="number"
+    name="price"
+    value="{{ v.price }}"
+    style="width:100px"
+>
+</td>
+
+<td>
+<input
+    type="number"
+    name="stock"
+    value="{{ v.stock }}"
+    style="width:80px"
+>
+</td>
+
+<td>
+
+<button type="submit">
+💾 ذخیره
+</button>
+
+<button
+    type="button"
+    hx-delete="{% url 'adminpanel:admin-variant-delete' v.id %}"
+    hx-target="#variant-{{ v.id }}"
+    hx-swap="outerHTML"
+    hx-confirm="این واریانت حذف شود؟"
+>
+🗑 حذف
+</button>
+
+</td>
+
+</form>
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+
+{% endblock %}

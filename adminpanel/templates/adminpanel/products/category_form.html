@@ -1,0 +1,41 @@
+{% extends "adminpanel/layout.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data" class="admin-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>نام دسته</label>
+        {{ form.name }}
+    </div>
+
+    <div class="form-group">
+        <label>دسته والد</label>
+        {{ form.parent }}
+    </div>
+
+    <div class="form-group">
+        <label>تصویر</label>
+        {{ form.image }}
+    </div>
+
+    <div class="form-group">
+        <label>فعال باشد؟</label>
+        {{ form.is_active }}
+    </div>
+
+    <div class="form-group">
+        <label>ترتیب</label>
+        {{ form.order }}
+    </div>
+
+    <button type="submit" class="btn-primary">
+        ذخیره
+    </button>
+</form>
+
+{% endblock %}

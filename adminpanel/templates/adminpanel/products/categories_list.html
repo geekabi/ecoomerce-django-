@@ -1,0 +1,51 @@
+{% extends "adminpanel/layout.html" %}
+
+{% block title %}دسته‌بندی‌ها{% endblock %}
+{% block page_title %}مدیریت دسته‌بندی‌ها{% endblock %}
+
+{% block content %}
+
+<div class="admin-header">
+    <a href="{% url 'adminpanel:category-create' %}" class="btn-primary">
+        + افزودن دسته جدید
+    </a>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>نام دسته</th>
+            <th>وضعیت</th>
+            <th>ترتیب</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for cat in categories %}
+        <tr>
+            <td>
+                <span style="padding-right:{{ cat.level|add:1 }}0px">
+                    ── {{ cat.name }}
+                </span>
+            </td>
+
+            <td>
+                {% if cat.is_active %}
+                    ✅ فعال
+                {% else %}
+                    ❌ غیرفعال
+                {% endif %}
+            </td>
+
+            <td>{{ cat.order }}</td>
+
+            <td>
+                <a href="{% url 'adminpanel:category-edit' cat.id %}">ویرایش</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
