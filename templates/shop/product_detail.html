@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="product-container">
+
+    <!-- PRODUCT TOP -->
+    <div class="product-top">
+
+        <!-- IMAGE -->
+        <div class="product-gallery">
+            {% if product.primary_image %}
+            <img src="{{ product.primary_image.url }}">
+            {% else %}
+            <img src="{% static 'images/no-image.png' %}">
+            {% endif %}
+        </div>
+
+        <!-- PRODUCT INFO -->
+        <div class="product-info">
+
+            <h1 class="product-title">
+                {{ product.name }}
+            </h1>
+
+            <p class="product-description">
+                {{ product.description|truncatewords:40 }}
+            </p>
+
+            <!-- VARIANTS -->
+            <form method="post" action="{% url 'shop:cart_add' %}">
+            {% csrf_token %}
+
+                <h3 class="section-title">
+                    انتخاب واریانت
+                </h3>
+
+                <div class="variant-list">
+
+                    {% for v in variants %}
+
+                    <label class="variant-card">
+
+                        <input type="radio"
+                               name="variant_id"
+                               value="{{ v.id }}"
+                               required
+                               {% if forloop.first %}checked{% endif %}>
+
+                        <div class="variant-content">
+
+                            <div class="variant-attributes">
+                                {% for va in v.variantattribute_set.all %}
+                                <span>
+                                    {{ va.value.attribute.name }} :
+                                    {{ va.value.value }}
+                                </span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="variant-price">
+                                {{ v.price }} تومان
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="buy-box">
+
+                    <input type="number"
+                           name="qty"
+                           value="1"
+                           min="1"
+                           class="qty-input">
+
+                    <button class="buy-btn">
+                        افزودن به سبد خرید
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- PRODUCT TABS -->
+    <div class="product-tabs">
+
+        <button class="tab-btn active" data-tab="desc">
+            توضیحات
+        </button>
+
+        <button class="tab-btn" data-tab="comments">
+            نظرات ({{ comments.count }})
+        </button>
+
+    </div>
+
+
+    <!-- TAB CONTENT -->
+    <div class="tab-content">
+
+        <!-- DESCRIPTION -->
+        <div class="tab-pane active" id="desc">
+            {{ product.description }}
+        </div>
+
+
+        <!-- COMMENTS -->
+        <div class="tab-pane" id="comments">
+
+            <!-- ADD COMMENT -->
+            <div class="comment-form-box">
+
+                <h3>ثبت نظر</h3>
+
+                <form method="post"
+                      action="{% url 'shop:add_comment' product.id %}">
+
+                    {% csrf_token %}
+
+                    <textarea name="body"
+                              placeholder="نظر خود را بنویسید..."
+                              required></textarea>
+
+                    <select name="rating">
+
+                        <option value="">امتیاز</option>
+                        <option value="5">5 ⭐</option>
+                        <option value="4">4 ⭐</option>
+                        <option value="3">3 ⭐</option>
+                        <option value="2">2 ⭐</option>
+                        <option value="1">1 ⭐</option>
+
+                    </select>
+
+                    <button class="comment-btn">
+                        ارسال نظر
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- COMMENT LIST -->
+            <div class="comment-list">
+
+                {% for comment in comments %}
+                {% if not comment.parent %}
+
+                <div class="comment-card">
+
+                    <div class="comment-header">
+
+                        <div class="comment-user">
+
+                            {{ comment.user.username }}
+
+                            {% if comment.is_verified_buyer %}
+                            <span class="verified-badge">
+                                خریدار
+                            </span>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="comment-rating">
+                            ⭐ {{ comment.rating }}
+                        </div>
+
+                    </div>
+
+                    <p class="comment-body">
+                        {{ comment.body }}
+                    </p>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+btn.onclick=()=>{
+
+document.querySelectorAll(".tab-btn")
+.forEach(b=>b.classList.remove("active"))
+
+document.querySelectorAll(".tab-pane")
+.forEach(p=>p.classList.remove("active"))
+
+btn.classList.add("active")
+
+document
+.getElementById(btn.dataset.tab)
+.classList.add("active")
+
+}
+})
+
+</script>
+
+
+{% endblock %}

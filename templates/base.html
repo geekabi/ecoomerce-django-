@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}پت‌شاپ آنلاین{% endblock %}</title>
+    {% load static %}
+    
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+
+    <header class="main-header">
+
+    <!-- TOP BAR (اختیاری) -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-right">
+                <span>پت‌شاپ آنلاین | ارسال سریع برای تهران و کرج</span>
+            </div>
+            <div class="top-left">
+                <a href="#">پیگیری سفارش</a>
+                <a href="#">سوالات متداول</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="container navbar">
+
+        <!-- LEFT: LOGO -->
+        <div class="nav-left">
+            <a href="/" class="logo">
+                PetShop
+            </a>
+        </div>
+
+        <!-- MIDDLE: SEARCH + MENU -->
+        <div class="nav-center">
+
+            <!-- SEARCH -->
+            <form class="nav-search" action="#" method="get">
+                <input type="text" name="q" placeholder="جستجوی محصول، دسته‌بندی یا برند">
+                <button type="submit">جستجو</button>
+            </form>
+
+            <!-- MENU -->
+            <nav class="menu">
+                <a href="#">خانه</a>
+                <a href="#">فروشگاه</a>
+                <a href="#">بلاگ</a>
+                <a href="#">تماس با ما</a>
+            </nav>
+
+        </div>
+
+        <!-- RIGHT: ACTIONS -->
+        <div class="nav-right">
+
+            <!-- ORDER STATUS -->
+            <div class="order-status">
+                <span class="dot"></span>
+                <span>سفارش می‌پذیریم</span>
+            </div>
+
+            <!-- LOCATION -->
+            <div class="nav-location">
+
+                <div class="location-icon">
+                    📍
+                </div>
+
+                <div class="location-info">
+                    {% if default_address %}
+                        <a href="{% url 'accounts:address_list' %}">
+                            <span class="location-label">ارسال به</span>
+                            <span class="location-main">
+                                {{ default_address.city }}
+                                <small>({{ default_address.title }})</small>
+                            </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'accounts:address_add' %}" class="add-address">
+                            افزودن آدرس
+                        </a>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- LOGIN -->
+            <!-- LOGIN / PROFILE -->
+{% if user.is_authenticated %}
+    <a href="{% url 'accounts:dashboard' %}" class="btn-profile">
+        پروفایل من
+    </a>
+
+    <a href="{% url 'accounts:logout' %}" class="btn-logout">
+        خروج
+    </a>
+
+{% else %}
+    <a href="/accounts/login/" class="btn-login">
+        ورود / ثبت‌نام
+    </a>
+{% endif %}
+
+
+            <!-- CART ICON -->
+            <a href="{% url 'shop:cart_detail' %}" class="cart-icon">
+                🛒
+            </a>
+
+            <!-- MOBILE TOGGLE -->
+            <div class="menu-toggle">
+                ☰
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+</header>
+<div class="messages-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+
+    {% block content %}
+    {% load humanize %}
+    {% endblock %}
+    <footer class="site-footer">
+
+    <div class="footer-top">
+
+        <!-- LOGO + ABOUT -->
+        <div class="footer-col footer-about">
+            <img src="{% static 'images/logo.png' %}" class="footer-logo">
+            <p>
+                پت‌شاپ آنلاین با بهترین قیمت و ارسال سریع.  
+                خرید انواع غذای سگ و گربه، لوازم نگهداری و محصولات بهداشتی.
+            </p>
+        </div>
+
+        <!-- LINKS -->
+        <div class="footer-col">
+            <h3>خدمات مشتریان</h3>
+            <ul>
+                <li><a href="#">پشتیبانی</a></li>
+                <li><a href="#">شیوه ارسال سفارش</a></li>
+                <li><a href="#">سوالات متداول</a></li>
+                <li><a href="#">قوانین بازگشت کالا</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>اطلاعات</h3>
+            <ul>
+                <li><a href="#">درباره ما</a></li>
+                <li><a href="#">تماس با ما</a></li>
+                <li><a href="#">همکاری با ما</a></li>
+                <li><a href="#">حریم خصوصی</a></li>
+            </ul>
+        </div>
+
+        <!-- SOCIALS + NEWSLETTER -->
+        <div class="footer-col footer-newsletter">
+
+            <h3>همراه ما باشید</h3>
+
+            <div class="footer-socials">
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-telegram"></i></a>
+                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                <a href="#"><i class="fa fa-whatsapp"></i></a>
+            </div>
+
+            <h4>عضویت در خبرنامه</h4>
+
+            <form class="newsletter-form">
+                <input type="email" placeholder="ایمیل خود را وارد کنید">
+                <button>ثبت</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © تمامی حقوق برای پت‌شاپ محفوظ است – {{ now|date:"Y" }}
+    </div>
+
+</footer>
+
+    <script>
+document.querySelector('.menu-toggle').addEventListener('click', () => {
+    document.querySelector('.menu').classList.toggle('active');
+});
+</script>
+
+</body>
+</html>

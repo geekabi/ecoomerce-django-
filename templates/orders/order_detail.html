@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+
+<style>
+.order-page{
+max-width:1100px;
+margin:40px auto;
+font-family:tahoma;
+}
+
+.order-header{
+background:white;
+padding:25px;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.07);
+margin-bottom:25px;
+}
+
+.order-header h2{
+margin-bottom:15px;
+font-size:22px;
+}
+
+.order-meta{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+align-items:center;
+}
+
+.order-meta p{
+margin:0;
+color:#555;
+font-size:15px;
+}
+
+.btn-primary{
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+padding:10px 18px;
+border-radius:8px;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
+}
+
+.btn-primary:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* invoice */
+
+.order-invoice{
+background:white;
+border-radius:14px;
+padding:25px;
+margin-bottom:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.07);
+}
+
+.order-invoice h4{
+margin-bottom:20px;
+font-size:18px;
+}
+
+.invoice-details p{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+font-size:15px;
+color:#555;
+}
+
+.invoice-total{
+font-weight:bold;
+font-size:17px;
+color:#111;
+}
+
+/* address */
+
+.order-address{
+background:white;
+border-radius:14px;
+padding:25px;
+margin-bottom:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.07);
+}
+
+.order-address h4{
+margin-bottom:15px;
+}
+
+.order-address p{
+line-height:1.8;
+color:#555;
+}
+
+/* items */
+
+.order-items{
+background:white;
+border-radius:14px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.07);
+}
+
+.order-items h4{
+margin-bottom:20px;
+}
+
+.order-item{
+display:flex;
+gap:15px;
+padding:15px 0;
+border-bottom:1px solid #eee;
+align-items:center;
+}
+
+.order-item:last-child{
+border-bottom:none;
+}
+
+.order-item img{
+width:70px;
+height:70px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.item-info strong{
+font-size:15px;
+display:block;
+margin-bottom:4px;
+}
+
+.item-info small{
+color:#888;
+}
+
+/* coupon */
+.coupon-row{
+color:#16a34a !important;
+font-weight:bold;
+}
+</style>
+
+
+<div class="order-page">
+
+<div class="order-header">
+<h2>جزئیات سفارش شماره {{ order.id }}</h2>
+
+<div class="order-meta">
+<p><strong>وضعیت:</strong> {{ order.get_status_display }}</p>
+<p><strong>تاریخ:</strong> {{ order.created_at|date:"Y/m/d H:i" }}</p>
+<p><strong>مبلغ کل:</strong> {{ order.total_price|intcomma }} تومان</p>
+
+{% if order.status == "pending" %}
+<a href="{% url 'orders:order_payment' order.id %}" class="btn-primary">
+رفتن به صفحه پرداخت
+</a>
+{% endif %}
+</div>
+</div>
+
+
+<div class="order-invoice">
+<h4>صورت حساب</h4>
+
+<div class="invoice-details">
+
+<p>
+<span>مجموع قیمت محصولات</span>
+<span>{{ order.products_total_price|intcomma }} تومان</span>
+</p>
+
+<p>
+<span>هزینه ارسال ({{order.shipping_method}})</span>
+<span>{{ order.shipping_price|default_if_none:0|intcomma }} تومان</span>
+</p>
+{% if order.coupon %}
+<p>
+<span>جمع کل بدون تخفیف</span>
+<span>{{ order.total_price_before_discount|default_if_none:0|intcomma }} تومان</span>
+</p>
+{% endif %}
+{% if order.coupon %}
+<p class="coupon-row">
+<span>تخفیف ({{ order.coupon.code }})</span>
+<span>- {{ order.discount_amount|default_if_none:0|intcomma }} تومان</span>
+</p>
+{% endif %}
+<form method="post" action="{% url 'orders:apply_coupon' order.id %}" style="margin:20px 0;">
+    {% csrf_token %}
+    <input type="text" name="code" placeholder="کد تخفیف" style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+    <button type="submit" class="btn-primary" style="border:none;cursor:pointer;">
+        اعمال کوپن
+    </button>
+</form>
+
+
+<hr>
+
+<p class="invoice-total">
+<span>جمع کل قابل پرداخت</span>
+<span>{{ order.total_price|intcomma }} تومان</span>
+</p>
+
+</div>
+</div>
+
+
+<div class="order-address">
+<h4>آدرس ارسال</h4>
+
+<p>
+{{ order.address.title }} <br>
+{{ order.address.province }} - {{ order.address.city }} <br>
+{{ order.address.address }} <br>
+
+{% if order.address.postal_code %}
+کد پستی: {{ order.address.postal_code }}
+{% endif %}
+</p>
+</div>
+
+
+<div class="order-items">
+<h4>محصولات</h4>
+
+{% for item in order.items.all %}
+<div class="order-item">
+
+{% if item.variant.product.primary_image %}
+<img src="{{ item.variant.product.primary_image.url }}">
+{% endif %}
+
+<div class="item-info">
+<strong>{{ item.variant.product.title }}</strong>
+<small>{{ item.variant }}</small><br>
+تعداد: {{ item.quantity }} <br>
+قیمت واحد: {{ item.price|intcomma }} تومان
+</div>
+
+</div>
+{% empty %}
+<p>هیچ موردی در این سفارش یافت نشد.</p>
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

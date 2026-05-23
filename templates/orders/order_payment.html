@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}پرداخت سفارش {{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="payment-page">
+
+    <div class="payment-card">
+        <h1>پرداخت سفارش #{{ order.id }}</h1>
+
+        <p class="payment-amount">
+            مبلغ قابل پرداخت:
+            <strong>{{ order.total_price|intcomma }} تومان</strong>
+        </p>
+
+        <p class="payment-text">
+            می‌توانید از روش‌های زیر برای پرداخت سفارش خود استفاده کنید:
+        </p>
+
+        <div class="payment-methods">
+            <div class="payment-method">
+                <h3>پرداخت اینترنتی (درگاه بانکی)</h3>
+                <p>انتقال به درگاه امن بانکی و پرداخت با کارت‌های عضو شتاب.</p>
+                <a href="{% url 'orders:zarinpal_start_payment' order.id %}" class="btn btn-success">
+پرداخت آنلاین
+</a>
+                </form>
+            </div>
+
+            <div class="payment-method">
+                <h3>پرداخت کارت به کارت</h3>
+                <p>مبلغ را به شماره کارت زیر واریز کنید و سپس با پشتیبانی تماس بگیرید.</p>
+                <div class="card-number">
+                    ۶۲۷۴-۱۲۳۴-۵۶۷۸-۹۰۱۲
+                </div>
+                <small>به نام: فروشگاه تست</small>
+            </div>
+
+            <div class="payment-method">
+                <h3>پرداخت در محل (در صورت فعال بودن)</h3>
+                <p>پرداخت وجه سفارش هنگام تحویل درب منزل.</p>
+                <button class="btn btn-outline" disabled>
+                    به‌زودی
+                </button>
+            </div>
+        </div>
+
+        <div class="payment-footer">
+            <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-secondary">
+                بازگشت به جزئیات سفارش
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.payment-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.payment-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem 1.8rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+.payment-card h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+.payment-amount {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+.payment-amount strong {
+    font-size: 1.05rem;
+    color: #16a34a;
+}
+.payment-text {
+    margin-bottom: 1.2rem;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.payment-method {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #f9fafb;
+}
+.payment-method h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+.payment-method p {
+    font-size: 0.85rem;
+    color: #4b5563;
+    margin-bottom: 0.6rem;
+}
+
+.card-number {
+    font-family: monospace;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    background: #111827;
+    color: #f9fafb;
+    display: inline-block;
+    margin-bottom: 0.2rem;
+    letter-spacing: 1px;
+}
+
+.payment-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+}
+.btn-secondary:hover {
+    background: #d1d5db;
+}
+.btn-outline {
+    background: transparent;
+    border: 1px solid #9ca3af;
+    color: #6b7280;
+}
+</style>
+
+{% endblock %}

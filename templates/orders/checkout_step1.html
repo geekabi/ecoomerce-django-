@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="checkout-wrapper">
+
+    <div class="checkout-grid">
+
+        <!-- اطلاعات و آدرس -->
+        <div class="checkout-main">
+
+            <div class="checkout-card">
+                <h3>اطلاعات گیرنده</h3>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+                            <label>نام</label>
+                            <input
+                                type="text"
+                                name="first_name"
+                                value="{{ user.first_name }}"
+                                {% if not user.first_name %}required{% endif %}
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label>نام خانوادگی</label>
+                            <input
+                                type="text"
+                                name="last_name"
+                                value="{{ user.last_name }}"
+                                {% if not user.last_name %}required{% endif %}
+                            >
+                        </div>
+
+                    </div>
+
+                    <h4 class="section-title">انتخاب آدرس</h4>
+
+                    <div class="address-list">
+
+                        {% for address in addresses %}
+
+                        <label class="address-card">
+
+                            <input type="radio" name="address_id" value="{{ address.id }}"
+                                    {% if address.is_default %}checked{% endif %}>
+
+                            <div class="address-content">
+                                <strong>{{ address.city }}</strong>
+
+                                <p>
+                                    {{ address.address }}
+                                </p>
+
+                                <span>
+                                    کد پستی: {{ address.postal_code }}
+                                </span>
+                            </div>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <button class="checkout-btn">
+                        ادامه و ثبت سفارش
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+
+
+        <!-- خلاصه سفارش -->
+        <div class="checkout-sidebar">
+
+            <div class="summary-card">
+
+                <h3>خلاصه سفارش</h3>
+
+                {% for item in cart_items %}
+
+                <div class="summary-item">
+
+                    <img src="{{ item.variant.product.primary_image.url }}">
+
+                    <div>
+                        <p>{{ item.variant.product.name }}</p>
+                        <span>{{ item.quantity }} عدد</span>
+                    </div>
+
+                    <strong>
+                        {{ item.total_price }} تومان
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+                <div class="summary-total">
+
+                    <span>جمع کل</span>
+
+                    <strong>
+                        {{ total_price }} تومان
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

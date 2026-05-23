@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}لیست سفارش‌ها{% endblock %}
+
+{% block content %}
+
+<div class="order-list-page">
+
+    <h2>لیست سفارش‌های من</h2>
+
+    <div class="orders-grid">
+
+        {% for order in orders %}
+        <div class="order-card">
+
+            <div class="order-row">
+                <span>شماره سفارش:</span>
+                <strong>{{ order.id }}</strong>
+            </div>
+
+            <div class="order-row">
+                <span>تاریخ ثبت:</span>
+                <strong>{{ order.created_at|date:"Y/m/d H:i" }}</strong>
+            </div>
+
+            <div class="order-row">
+                <span>وضعیت:</span>
+                <strong class="status status-{{ order.status }}">
+                    {{ order.get_status_display }}
+                </strong>
+            </div>
+
+            <div class="order-row">
+                <span>مبلغ کل:</span>
+                <strong>{{ order.total_price|intcomma }} تومان</strong>
+            </div>
+
+            <a href="{% url 'orders:order_detail' order.id %}" class="order-btn">
+                مشاهده جزئیات
+            </a>
+
+        </div>
+        {% empty %}
+            <p>سفارشی یافت نشد.</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

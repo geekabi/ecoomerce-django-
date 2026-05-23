@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}داشبورد کاربر{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-sidebar">
+        <div class="profile-box">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="avatar">
+            {% else %}
+                <img src="{% static 'img/default-avatar.png' %}" class="avatar">
+            {% endif %}
+
+            <h3>{{ user.profile.full_name|default:"کاربر پت‌شاپ" }}</h3>
+            <p>{{ user.phone }}</p>
+        </div>
+
+
+        <ul class="dashboard-menu">
+            <li><a href="{% url 'accounts:dashboard' %}" class="active">داشبورد</a></li>
+            <li><a href="{% url 'accounts:profile_edit' %}">ویرایش پروفایل</a></li>
+            <li><a href="{% url 'accounts:address_list' %}">آدرس‌ها</a></li>
+            <li><a href="{% url 'accounts:order_list' %}">سفارش‌ها</a></li>
+            <li><a href="#">علاقه‌مندی‌ها</a></li>
+            <li><a href="">خروج</a></li>
+        </ul>
+    </div>
+
+
+    <div class="dashboard-content">
+
+        <h2>داشبورد</h2>
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+                <h3>سفارش‌ها</h3>
+                <p>{{ orders_count|default:0 }}</p>
+            </div>
+
+            <div class="card">
+                <h3>آدرس‌ها</h3>
+                <p>{{ addresses_count|default:0 }}</p>
+            </div>
+
+            <div class="card">
+                <h3>امتیاز شما</h3>
+                <p>{{ user.profile.score|default:0 }}</p>
+            </div>
+
+        </div>
+
+        <div class="dashboard-info">
+
+            <h3>اطلاعات حساب</h3>
+
+            <div class="info-item">
+                <span>نام:</span>
+                <strong>{{ user.profile.full_name|default:"ثبت نشده" }}</strong>
+            </div>
+
+            <div class="info-item">
+                <span>شماره موبایل:</span>
+                <strong>{{ user.phone }}</strong>
+            </div>
+
+            <div class="info-item">
+                <span>ایمیل:</span>
+                <strong>{{ user.email|default:"ثبت نشده" }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

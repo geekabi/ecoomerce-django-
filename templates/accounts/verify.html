@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}تأیید حساب کاربری{% endblock %}
+
+{% block content %}
+<div class="verify-wrapper">
+  <div class="verify-card">
+
+    <h2>تأیید حساب کاربری</h2>
+    <p class="subtitle">کد ارسال‌شده را وارد کنید</p>
+
+    <form method="post" id="otp-form">
+      {% csrf_token %}
+
+      <div class="otp-container">
+        <input type="text" maxlength="1" class="otp-input" autofocus>
+        <input type="text" maxlength="1" class="otp-input">
+        <input type="text" maxlength="1" class="otp-input">
+        <input type="text" maxlength="1" class="otp-input">
+        <input type="text" maxlength="1" class="otp-input">
+        <input type="text" maxlength="1" class="otp-input">
+      </div>
+
+      <div class="sr-only">
+        {{ form.code }}
+      </div>
+
+      {% if form.code.errors %}
+        <div class="error-message">{{ form.code.errors|striptags }}</div>
+      {% endif %}
+
+      <button type="submit" class="btn-submit">تأیید</button>
+    </form>
+
+  </div>
+</div>
+
+<script>
+const inputs = document.querySelectorAll('.otp-input');
+const realInput = document.querySelector('input[name="code"]');
+const form = document.getElementById("otp-form");
+
+// قرار دادن کد کامل در فیلد فرم
+function updateCode() {
+    let code = "";
+    inputs.forEach(i => code += i.value);
+    realInput.value = code;
+
+    if (code.length === 6) {
+        form.submit();
+    }
+}
+
+inputs.forEach((input, index) => {
+
+    input.addEventListener("input", function () {
+
+        this.value = this.value.replace(/\D/g, "").slice(0,1);
+
+        if (this.value && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+
+        updateCode();
+    });
+
+    input.addEventListener("keydown", function(e) {
+
+        if (e.key === "Backspace" && this.value === "" && index > 0) {
+            inputs[index - 1].focus();
+        }
+
+    });
+
+});
+
+// پشتیبانی از paste
+inputs[0].addEventListener("paste", function(e) {
+
+    const paste = (e.clipboardData || window.clipboardData)
+        .getData("text")
+        .replace(/\D/g, "")
+        .slice(0,6);
+
+    if (!paste) return;
+
+    e.preventDefault();
+
+    paste.split("").forEach((num, i) => {
+        if (inputs[i]) inputs[i].value = num;
+    });
+
+    updateCode();
+
+    if (paste.length < 6) {
+        inputs[paste.length].focus();
+    }
+});
+</script>
+
+{% endblock %}

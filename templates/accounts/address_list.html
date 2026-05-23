@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}آدرس‌های من{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-sidebar">
+        <div class="profile-box">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="avatar">
+            {% else %}
+                <img src="{% static 'img/default-avatar.png' %}" class="avatar">
+            {% endif %}
+
+            <h3>{{ user.profile.full_name|default:"کاربر پت‌شاپ" }}</h3>
+            <p>{{ user.phone }}</p>
+        </div>
+
+        <ul class="dashboard-menu">
+            <li><a href="{% url 'accounts:dashboard' %}">داشبورد</a></li>
+            <li><a href="{% url 'accounts:profile_edit' %}">ویرایش پروفایل</a></li>
+            <li><a href="{% url 'accounts:address_list' %}" class="active">آدرس‌ها</a></li>
+            <li><a href="#">سفارش‌ها</a></li>
+            <li><a href="#">علاقه‌مندی‌ها</a></li>
+            <li><a href="#">خروج</a></li>
+        </ul>
+    </div>
+
+
+    <div class="dashboard-content">
+
+        <div class="addresses-header">
+            <h2>آدرس‌های من</h2>
+
+            <a href="{% url 'accounts:address_add' %}" class="btn-add-address">
+                + افزودن آدرس
+            </a>
+        </div>
+
+
+        <div class="addresses-list">
+
+            {% for address in addresses %}
+
+            <div class="address-card">
+
+                <div class="address-top">
+                    <h3>{{ address.title }}</h3>
+
+                    {% if address.is_default %}
+                        <span class="default-badge">پیش‌فرض</span>
+                    {% endif %}
+                </div>
+
+                <p class="address-city">
+                    {{ address.province }} ، {{ address.city }}
+                </p>
+
+                <p class="address-text">
+                    {{ address.address }}
+                </p>
+
+                {% if address.postal_code %}
+                <p class="postal">
+                    کد پستی: {{ address.postal_code }}
+                </p>
+                {% endif %}
+
+                <div class="address-actions">
+ <a href="{% url 'accounts:address_edit' address.id %}" class="btn-edit">
+        ویرایش
+    </a>
+
+    {% if not address.is_default %}
+        <a href="{% url 'accounts:address_set_default' address.id %}" class="btn-default">
+            انتخاب به عنوان پیش‌فرض
+        </a>
+    {% endif %}
+                   
+
+                </div>
+               
+
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-address">
+                <p>هنوز آدرسی ثبت نکرده‌اید.</p>
+
+                <a href="{% url 'accounts:address_add' %}" class="btn-add-address">
+                    ثبت اولین آدرس
+                </a>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="cart-container">
+  <h2 class="cart-title">🛒 سبد خرید شما</h2>
+
+  {% if cart %}
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>محصول</th>
+        <th>تعداد</th>
+        <th>قیمت واحد</th>
+        <th>جمع جزئی</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+      <tr class="cart-row">
+        <td class="cart-item">
+          {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.variant }}" class="cart-image">
+          {% endif %}
+          <div class="cart-item-info">
+            <span class="cart-item-name">{{ item.variant.product.name }}</span>
+            <small class="cart-item-variant">{{ item.variant }}</small>
+          </div>
+        </td>
+        <td class="cart-qty">{{ item.qty }}</td>
+        <td class="cart-price">{{ item.price|floatformat:0 }} تومان</td>
+        <td class="cart-total">{{ item.total_price|floatformat:0 }} تومان</td>
+        <td class="cart-remove">
+          <form method="post" action="{% url 'shop:cart_remove' item.variant.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-remove">✖ حذف</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="cart-summary">
+    <h3>جمع کل</h3>
+    <p class="cart-total-price">{{ cart.get_total_price|floatformat:0 }} تومان</p>
+    <a href="{% url 'orders:checkout_step1' %}" class="btn-primary">ادامه خرید</a>
+  </div>
+
+  {% else %}
+  <div class="cart-empty">
+    <img src="" alt="خالی" class="empty-cart-image">
+    <p>سبد شما خالی است 😢</p>
+    <a href="{% url 'shop:home' %}" class="btn-primary">بازگشت به فروشگاه</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

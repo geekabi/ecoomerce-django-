@@ -1,0 +1,423 @@
+/* متغیرها برای تغییر راحت رنگ‌ها */
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-main: #f3f4f6;
+    --bg-white: #ffffff;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --sidebar-width: 260px;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    direction: rtl; /* راست‌چین برای فارسی */
+}
+
+/* سایدبار */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #111827;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #818cf8;
+}
+
+.sidebar nav a {
+    display: block;
+    color: #d1d5db;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* محتوای اصلی */
+.main-content {
+    margin-right: var(--sidebar-width);
+    width: 100%;
+    padding: 30px;
+}
+
+/* هدر بالای محتوا */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.btn-add {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* جدول محصولات */
+.card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+th {
+    background-color: #f9fafb;
+    padding: 15px;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    
+}
+
+tr:hover {
+    background-color: #fcfcfd;
+}
+
+.product-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.badge-success { background: #dcfce7; color: #166534; }
+.btn-add {
+    display: inline-block;
+    margin-top: 20px;
+}
+.page-header {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.table thead {
+    background: #f5f6fa;
+}
+
+.table th,
+.table td {
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+}
+
+.table tbody tr:hover {
+    background: #f9fafc;
+}
+
+.btn-add {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.btn-add:hover {
+    background: #43a047;
+}
+/* =====================
+🟣 Layout عمومی و فواصل
+===================== */
+body {
+    margin: 0;
+    display: flex;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    direction: rtl;
+}
+
+.main-content {
+    margin-right: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    padding: 40px;
+}
+
+/* =====================
+🔵 هدر صفحه و دکمه افزودن
+===================== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 25px;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.btn-add {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(79,70,229,0.3);
+    transition: 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* =====================
+🟢 کارت جدول محصولات
+===================== */
+.card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    padding: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.table thead {
+    background-color: #f9fafb;
+}
+
+th, td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+th {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+tr:hover td {
+    background-color: #f5f7ff;
+    transition: 0.2s;
+}
+
+/* =====================
+🟠 المان‌های خاص
+===================== */
+.product-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+.admin-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-title {
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 25px;
+    border: 1px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-help {
+    font-size: 12px;
+    color: #888;
+}
+
+.form-error {
+    margin-top: 4px;
+    color: #c00;
+    font-size: 13px;
+}
+
+.error-box {
+    padding: 10px;
+    background: #fbeaea;
+    color: #b20909;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background: #2d6cdf;
+    padding: 10px 22px;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #1f50a9;
+}
+body{
+    margin:0;
+    font-family: Vazirmatn;
+    background:#f5f6fa;
+}
+
+.admin-layout{
+    display:flex;
+}
+
+/* sidebar */
+
+.sidebar{
+    width:250px;
+    background:#111827;
+    color:white;
+    min-height:100vh;
+    padding:20px;
+}
+
+.sidebar .logo{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:#ddd;
+    padding:10px;
+    text-decoration:none;
+    border-radius:6px;
+    margin-bottom:5px;
+}
+
+.sidebar a:hover{
+    background:#1f2937;
+}
+
+/* main */
+
+.main-content{
+    flex:1;
+}
+
+.topbar{
+    background:white;
+    padding:15px 30px;
+    border-bottom:1px solid #eee;
+    display:flex;
+    justify-content:space-between;
+}
+
+.content{
+    padding:30px;
+}
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+.admin-table th,
+.admin-table td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    text-align:right;
+}
+
+.order-box{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin-bottom:20px;
+}

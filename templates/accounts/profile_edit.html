@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-sidebar">
+        <div class="profile-box">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="avatar">
+            {% else %}
+                <img src="{% static 'img/default-avatar.png' %}" class="avatar">
+            {% endif %}
+
+            <h3>{{ user.profile.full_name|default:"کاربر پت‌شاپ" }}</h3>
+            <p>{{ user.phone }}</p>
+        </div>
+
+        <ul class="dashboard-menu">
+            <li><a href="{% url 'accounts:dashboard' %}">داشبورد</a></li>
+            <li><a href="{% url 'accounts:profile_edit' %}" class="active">ویرایش پروفایل</a></li>
+            <li><a href="{% url 'accounts:address_list' %}">آدرس‌ها</a></li>
+            <li><a href="#">سفارش‌ها</a></li>
+            <li><a href="#">علاقه‌مندی‌ها</a></li>
+            <li><a href="">خروج</a></li>
+        </ul>
+    </div>
+
+
+    <div class="dashboard-content">
+
+        <h2>ویرایش اطلاعات حساب</h2>
+
+        <form method="post" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>نام و نام خانوادگی</label>
+                {{ form.full_name }}
+            </div>
+
+            <div class="form-group">
+                <label>ایمیل</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label>تصویر پروفایل</label>
+                {{ form.avatar }}
+            </div>
+
+            <button type="submit" class="btn-save">
+                ذخیره تغییرات
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}خانه | پت‌شاپ{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container hero-inner">
+
+        <div class="hero-text">
+            <span class="hero-badge">پیشنهاد ویژه برای پت‌های دوست‌داشتنی 🐾</span>
+            <h1>همه چیز برای حیوان خانگی شما، در یک جا</h1>
+            <p>
+                از غذای سگ و گربه گرفته تا لوازم بهداشتی، اسباب‌بازی و مکمل‌ها،
+                همه با کیفیت بالا و ارسال سریع در پت‌شاپ.
+            </p>
+
+            <div class="hero-actions">
+                <a href="/products/" class="btn-primary">مشاهده محصولات</a>
+                <a href="/products/" class="btn-secondary">خرید سریع</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="{% static 'images/pet-hero.png' %}" alt="pet shop hero">
+        </div>
+
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+    <div class="container services-grid">
+        <div class="service-box">
+            <div class="service-icon">🚚</div>
+            <div>
+                <h4>ارسال سریع</h4>
+                <p>تحویل سریع و مطمئن</p>
+            </div>
+        </div>
+
+        <div class="service-box">
+            <div class="service-icon">✅</div>
+            <div>
+                <h4>ضمانت اصالت کالا</h4>
+                <p>محصولات اورجینال و باکیفیت</p>
+            </div>
+        </div>
+
+        <div class="service-box">
+            <div class="service-icon">💳</div>
+            <div>
+                <h4>پرداخت امن</h4>
+                <p>درگاه مطمئن و امن بانکی</p>
+            </div>
+        </div>
+
+        <div class="service-box">
+            <div class="service-icon">📞</div>
+            <div>
+                <h4>پشتیبانی آنلاین</h4>
+                <p>همیشه در کنار شما هستیم</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORY BANNERS -->
+<section class="category-banners">
+    <div class="container">
+        <div class="section-header">
+            <h2>دسته‌بندی‌های محبوب</h2>
+        </div>
+
+        <div class="banners-grid">
+            <a href="/products/?category=dog" class="banner-card banner-dog">
+                <div class="banner-overlay">
+                    <h3>غذای سگ</h3>
+                    <span>مشاهده محصولات</span>
+                </div>
+            </a>
+
+            <a href="/products/?category=cat" class="banner-card banner-cat">
+                <div class="banner-overlay">
+                    <h3>غذای گربه</h3>
+                    <span>مشاهده محصولات</span>
+                </div>
+            </a>
+
+            <a href="/products/?category=toy" class="banner-card banner-toy">
+                <div class="banner-overlay">
+                    <h3>اسباب‌بازی و سرگرمی</h3>
+                    <span>مشاهده محصولات</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- NEW PRODUCTS -->
+<section class="products-section">
+    <div class="container">
+
+        <div class="section-header">
+            <h2>جدیدترین محصولات</h2>
+            <a href="/products/" class="view-all">مشاهده همه</a>
+        </div>
+
+        <div class="product-grid">
+            {% for p in products %}
+            <div class="product-card">
+
+                <a href="{% url 'shop:product-detail' p.slug %}" class="product-image-wrap">
+                    {% if p.primary_image %}
+                        <img src="{{ p.primary_image.url }}" alt="{{ p.name }}">
+                    {% else %}
+                        <img src="{% static 'images/no-image.png' %}" alt="{{ p.name }}">
+                    {% endif %}
+                </a>
+
+                <div class="product-body">
+                    <h3>
+                        <a href="{% url 'shop:product-detail' p.slug %}">
+                            {{ p.name }}
+                        </a>
+                    </h3>
+
+                    <p class="product-desc">
+                        {{ p.description|truncatechars:60 }}
+                    </p>
+
+                    <div class="product-meta">
+                        <span class="product-rating">★ 4.8</span>
+                        <span class="product-stock">موجود</span>
+                    </div>
+
+                    <div class="product-footer">
+                        <span class="price">{{ p.price }} تومان</span>
+                        <a href="{% url 'shop:product-detail' p.slug %}" class="btn-buy">
+                            مشاهده
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            {% empty %}
+            <p class="empty-products">محصولی برای نمایش وجود ندارد.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+<!-- SPECIAL OFFER -->
+<section class="special-offer">
+    <div class="container special-offer-inner">
+        <div class="offer-text">
+            <span>پیشنهاد شگفت‌انگیز</span>
+            <h2>تخفیف ویژه روی محصولات منتخب پت‌شاپ</h2>
+            <p>
+                بهترین برندهای غذای حیوانات، تشویقی‌ها و لوازم جانبی را
+                با قیمت‌های ویژه تهیه کنید.
+            </p>
+            <a href="/products/" class="btn-primary">مشاهده تخفیف‌ها</a>
+        </div>
+
+        <div class="offer-image">
+            <img src="{% static 'images/pet-offer.png' %}" alt="special offer">
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="container features-grid">
+
+        <div class="feature">
+            <div class="icon">🐶</div>
+            <h4>تنوع بالا</h4>
+            <p>محصولات متنوع برای سگ، گربه و سایر حیوانات خانگی</p>
+        </div>
+
+        <div class="feature">
+            <div class="icon">🦴</div>
+            <h4>برندهای معتبر</h4>
+            <p>ارائه بهترین برندهای داخلی و خارجی</p>
+        </div>
+
+        <div class="feature">
+            <div class="icon">🛒</div>
+            <h4>خرید آسان</h4>
+            <p>تجربه خرید سریع، ساده و مطمئن</p>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

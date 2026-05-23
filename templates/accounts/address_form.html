@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-content">
+
+    <div class="form-card">
+
+        <h2>ثبت / ویرایش آدرس</h2>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-save">
+                ذخیره آدرس
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

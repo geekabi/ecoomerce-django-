@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-box">
+
+    <h2>ورود / ثبت‌نام</h2>
+    <p>شماره موبایل خود را وارد کنید تا کد تأیید ارسال شود.</p>
+
+    <form method="post" class="login-form" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-auth">ثبت</button>
+    </form>
+
+</div>
+{% endblock %}
