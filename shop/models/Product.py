@@ -62,7 +62,7 @@ class Product(BaseModel):
     
     @property
     def primary_image(self):
-        # سعی کن عکس اصلی را پیدا کنی، اگر نبود اولین عکس را برگردان
+
         primary = self.images.filter(is_primary=True).first()
         if primary:
             return primary.image
@@ -168,9 +168,6 @@ class VariantAttribute(models.Model):
     )
 
     class Meta:
-        # یک واریانت نباید دو مقدار از یک "نوع ویژگی" (مثلاً دو رنگ) داشته باشد.
-        # واریانت 123 | ویژگی رنگ | مقدار قرمز
-        # واریانت 123 | ویژگی رنگ | مقدار آبی  <- این نباید ممکن باشد
         unique_together = ('variant', 'attribute') # این تضمین می‌کند که از هر ویژگی فقط یک مقدار برای هر واریانت ثبت شود
         verbose_name = "ویژگی واریانت"
         verbose_name_plural = "ویژگی‌های واریانت"
